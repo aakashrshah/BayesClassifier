@@ -35,7 +35,7 @@ public class Parser {
 				 
 			 }else{
 				 isNewDigit = false;
-				 if( number!= null ){
+				 if( number != null ){
 					 numbers.add(number);
 				 }
 				 number = null;
