@@ -50,7 +50,6 @@ public class Parser {
 		
 		String line =  null;
 		ArrayList<Integer> numbers = new ArrayList<Integer>();
-		String number = null;
 		while ((line = this.br.readLine()) != null){
 			numbers.add(Integer.parseInt(line));
 		}

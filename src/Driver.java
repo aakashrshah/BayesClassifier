@@ -1,36 +1,45 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Scanner;
 
 public class Driver {
-		public static void main(String args[]) throws IOException{
-			//Open the training images file
-			ArrayList<String> imageNumbers = new ArrayList<String>();
-			String filePath = "digitdata/trainingimages";
-			Parser p = new Parser(filePath);
-			imageNumbers = p.parseTrainingImages();
+	@SuppressWarnings("resource")
+	public static void main(String args[]) throws IOException{
+		TrainModel train = new TrainModel();
+		
+		//TODO Test a file
+		
+		//TODO Create a CSV report
+		
+		//Test a image
+		ArrayList<Double> confidence = new ArrayList<Double>();
+		String image = train.imageNumbers.get(4009);
+		System.out.println(image);
+		FeatureModel imageFeatures = new FeatureModel(image);
+		int[] features = imageFeatures.getFeatures();
+		double ppp = train.classify.predictorPriorProbability(features,train.features);
+		
+		for(int i=0;i<10;i++){
+			//Smoothening
+			double a = train.priorProbability.get(i);
+			double b = train.classify.getLikelyHood(i,train.features.get(i),features);
+			double t = ((a * b));
 			
-			//Open the training labels file
-			ArrayList<Integer> textNumbers = new ArrayList<Integer>();
-			filePath = "digitdata/traininglabels";
-			p = new Parser(filePath);
-			textNumbers = p.parseTrainingLabels();
-			
-			//Create a HashMap
-			HashMap<Integer, String> trainingData = new HashMap<Integer,String>();
-			for(String i : imageNumbers){
-					System.out.println(i);
+			if(t <= 1.0 && t >= 0.0){
+				confidence.add(i, t);
 			}
-			
-			if(textNumbers.size() == imageNumbers.size()){
-				for(int i=0;i<textNumbers.size();i++){
-					trainingData.put(textNumbers.get(i), imageNumbers.get(i));
-				}
-				System.out.println("HashMap Created");
-			}
-			
-			//Parse images
-			
-			//Associate labels to the strings in the Hashmap
 		}
+		
+		//Calculate Maximum Hypothesis.
+		double maxConfidence = 0.0;
+		int predictedDigit = 0;
+		for(int i=0;i<10;i++){
+			if(confidence.get(i) > maxConfidence){
+				maxConfidence = confidence.get(i);
+				predictedDigit = i;
+			}
+		}
+		
+		System.out.println(predictedDigit + "(" + maxConfidence*100 + " %)");
+	}
 }
