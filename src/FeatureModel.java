@@ -19,7 +19,6 @@ public class FeatureModel {
 	int[] featureSet;
 	
 	public FeatureModel(ArrayList<Integer> textNumbers, ArrayList<String> imageNumbers,int h){
-		
 		//Training Constructor
 		this.textNumbers = textNumbers;
 		this.imageNumbers = imageNumbers;
