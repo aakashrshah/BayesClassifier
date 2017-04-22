@@ -74,6 +74,7 @@ public class FeatureModel {
 		int length = 0;
 		StringTokenizer st = new StringTokenizer(t, "\n");
 		while(st.hasMoreTokens()){
+			@SuppressWarnings("unused")
 			String s = st.nextToken();
 			length++;
 		}
